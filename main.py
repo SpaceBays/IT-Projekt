@@ -1,18 +1,36 @@
-# This is a sample Python script.
+import tkinter as tk
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+class Tegning(tk.Frame):         #Klasse nedarvet fra Frame
+    def __init__(self,h,w):      #Konstruktør med dimensioner
+        super(). __init__()      #kald af Frame konstruktør
+
+        self.master.title("Tegning")
+        self.pack(fill = tk.BOTH, expand = True)
+
+        canvas = tk.Canvas(self)
+        canvas.create_line(3,3,3,h-4,w-4,h-4,w-4,3,3,3) #Laver en kant på vinduet
+        canvas.create_oval(10,10,10)
+
+window = tk.Tk()                         #Opret vindue
+t = Tegning(100,400)                     #Opret tegning
+window.geometry("400x400")               #Angiver størrelsen af vinduet
+window.configure(background = "purple")  #Angiver farven på vinduet
+window.mainloop()                        #Vis vindue
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+
+# Tegning af graf
+
+class Graf(tk.Frame):
+
+    def __init__(self,h,w,data):
+        ...
+        maxx, minx, maxy, miny = 11, -11, 105,-5
+
+        deltax = w / (maxx-minx)        #sætter origo til midten istedt for i venstre hjørne top.
+        deltay = h / (maxy-miny)
+        oridox = -minx * deltax
+        origoy = h + miny * deltay
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
-Hej
