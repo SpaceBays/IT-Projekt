@@ -88,7 +88,3 @@ quit_button.place(x=930, y=470, heig=30, width=70)
 quit_button['command'] = quit
 
 window.mainloop()
-
-
-
-hej
