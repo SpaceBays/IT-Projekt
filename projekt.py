@@ -66,3 +66,103 @@ cpr_entry.place(x=150,y=150)
 window.withdraw() #This hides the main window, it's still present it just can't be seen or interacted with
 window.mainloop() #Starts the event loop for the main window
 
+
+
+
+
+#__________________________________________________________
+
+# forslag til forbedring af ovenstående program
+
+import tkinter as tk
+from tkinter import messagebox
+import sys
+
+def trylogin():
+    if username_entry.get() == "user" and password_entry.get() == "password":
+        login.destroy() #lukker login-vinduet
+        cpr.deiconify() #åbner cpr-vinduet, som indstil nu var skjult i baggrunden
+    else:
+       messagebox.showwarning("login failed","Please try again" )
+
+def tryCPR():
+    if cpr_entry.get() == "12345678": #Checks whether username and password are correct
+        cpr.destroy()       # lukker cpr-vinduet
+        window.deiconify()  # åbner hovedprogrammet, som indtil nu var skjult i baggrunden
+    else:
+       messagebox.showwarning("Unknown CPR","Please try again" )
+
+def quit():
+    message = tk.messagebox.askyesno("Question","Are you sure you want to quit?")
+
+    if message:
+        sys.exit()  #lukker systeemet hvis der svares "ja" til ovenstående besked
+
+        
+# Opretter og skjuler hovedprogram i baggrunden
+window=tk.Tk()
+window.withdraw()
+
+
+# opretter loginvindue, som bliver vist som det første
+login=tk.Toplevel()
+login.title("Login")
+login.geometry("340x440+400+200")
+login.configure(bg="#333333")
+login.resizable (width=False,height=False)
+
+login_frame = tk.Frame(login, bg="#333333")
+
+login_label=tk.Label(login_frame,text="Login", bg="#333333", fg="white", font=("Arial",30))
+login_label.grid(row=0,column=0,columnspan=2, sticky="news", pady=40)
+
+username_label = tk.Label(login_frame, text="USER NAME", bg="#333333", fg="white", font=("Arial",15))
+username_label.grid(row=1,column=0)
+username_entry = tk.Entry(login_frame, font=("Arial",15))
+username_entry.grid(row=1,column=1,pady=10)
+
+password_label=tk.Label(login_frame,text="PASSWORD", bg="#333333", fg="white", font=("Arial",15))
+password_label.grid(row=2,column=0)
+password_entry=tk.Entry(login_frame, show="*", font=("Arial",15))
+password_entry.grid(row=2,column=1,pady=10)
+
+login_button = tk.Button(login_frame, text="Login", font=("Arial",15),command=trylogin)
+login_button.grid(row=3,column=0,columnspan=2, pady=30)
+quit_button = tk.Button(login_frame, text="Quit", font=("Arial",15),command=quit)
+quit_button.grid(row=3,column=1,columnspan=2, pady=30, padx=30)
+
+login_frame.pack()
+
+
+# opretter CPR-vindue - bliver vist efter login
+cpr=tk.Toplevel()
+cpr.withdraw()      #denne skuler cpr-vinduet (det vil kun åbne, hvis login er en succes, se deflogin)
+cpr.title("CPR")
+cpr.geometry("340x440+400+200")
+cpr.configure(bg="#333333")
+cpr.resizable (width=False,height=False)
+
+cpr_frame = tk.Frame(cpr, bg="#333333")
+
+cpr_label=tk.Label(cpr_frame,text="CPR", bg="#333333", fg="white", font=("Arial",30))
+cpr_label.grid(row=0,column=0,columnspan=2, sticky="news", pady=40)
+
+cpr_label = tk.Label(cpr_frame, text="CPR-nummer", bg="#333333", fg="white", font=("Arial",15))
+cpr_label.grid(row=1,column=0)
+cpr_entry = tk.Entry(cpr_frame,show="*", font=("Arial",15))
+cpr_entry.grid(row=1,column=1,pady=10)
+
+cpr_button = tk.Button(cpr_frame, text="OK", font=("Arial",15),command=tryCPR)
+cpr_button.grid(row=3,column=0,columnspan=2, pady=30, padx=30)
+quit_button = tk.Button(cpr_frame, text="Quit", font=("Arial",15),command=quit)
+quit_button.grid(row=3,column=1,columnspan=2, pady=30, padx=30)
+
+cpr_frame.pack()
+
+
+# åbner hovedprogram, hvor man først kommer ind til grænseværdier
+window.geometry("1500x800+100+50")
+
+window.mainloop() #Starts the event loop for the main window
+
+
