@@ -1,40 +1,45 @@
-
-from tkinter import * #Imports Tkinter
+from tkinter import *
+from tkinter import ttk
+from tkinter import messagebox
 import sys #Imports sys, used to end the program later
 
-root=Tk() #Declares root as the tkinter main window
-top = Toplevel() #Creates the toplevel window
-
-entry1 = Entry(top) #Username entry
-entry2 = Entry(top) #Password entry
-button1 = Button(top, text="Login", command=lambda:command1()) #Login button
-button2 = Button(top, text="Cancel", command=lambda:command2()) #Cancel button
-label1 = Label(root, text="This is your main window and you can input anything you want here")
-
-def command1():
-    if entry1.get() == "ida" and entry2.get() == "1234": #Checks whether username and password are correct
-        root.deiconify() #Unhides the root window
+def trylogin():
+    if name_entry.get() == "user" and password_entry.get() == "password": #Checks whether username and password are correct
+        window.deiconify() #Unhides the root window
         top.destroy() #Removes the toplevel window
+    else:
+       messagebox.showwarning("login failed","Please try again" )
 
-def command2():
+def cancel():
     top.destroy() #Removes the toplevel window
-    root.destroy() #Removes the hidden root window
+    window.destroy() #Removes the hidden root window
     sys.exit() #Ends the script
 
 
-Main_window.geometry("600x500+300+100")
+window=Tk()
+top=Toplevel()                #this login ui
 
-MENU_1 = Menu(Main_window)
-Main_window.config(menu=MENU_1)
+top.title("LOGIN-Window")
+top.geometry("400x400+400+200")
+top.resizable (width=FALSE,height=FALSE)
 
-SETTINGS_1 = Menu(MENU_1,tearoff=0)
-MENU_1.add_cascade(label="SETTINGS",menu=SETTINGS_1,underline=0)
-SETTINGS_1.add_command(label="Change Password")
+LABEL_1 = Label(top,text="USER NAME")
+LABEL_1.place(x=50,y=100)
+LABEL_2 = Label(top,text="PASSWORD")
+LABEL_2.place(x=50,y=150)
+labelwindow = Label(window, text="This is your main window and you can input anything you want here")
 
-Main_window. mainloop()
+BUTTON_1=ttk. Button(top, text="login",command=trylogin)
+BUTTON_1.place(x=50,y=200)
+BUTTON_1=ttk. Button(top, text="cancel",command=cancel)
+BUTTON_1.place(x=200,y=200)
 
+name_entry=Entry(top,width=30)
+name_entry.place(x=150,y=100)
+password_entry=ttk. Entry(top,width=30,show="*")
+password_entry.place(x=150,y=150)
 
-root.withdraw() #This hides the main window, it's still present it just can't be seen or interacted with
-root.mainloop() #Starts the event loop for the main window
+window.withdraw() #This hides the main window, it's still present it just can't be seen or interacted with
+window.mainloop() #Starts the event loop for the main window
 
 
