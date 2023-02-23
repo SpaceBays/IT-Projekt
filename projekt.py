@@ -79,14 +79,14 @@ from tkinter import messagebox
 import sys
 
 def trylogin():
-    if username_entry.get() == "user" and password_entry.get() == "password":
+    if username_entry.get() == "M" and password_entry.get() == "M":
         login.destroy() #lukker login-vinduet
         cpr.deiconify() #åbner cpr-vinduet, som indstil nu var skjult i baggrunden
     else:
        messagebox.showwarning("login failed","Please try again" )
 
 def tryCPR():
-    if cpr_entry.get() == "12345678": #Checks whether username and password are correct
+    if cpr_entry.get() == "M": #Checks whether username and password are correct
         cpr.destroy()       # lukker cpr-vinduet
         window.deiconify()  # åbner hovedprogrammet, som indtil nu var skjult i baggrunden
     else:
@@ -96,17 +96,15 @@ def quit():
     message = tk.messagebox.askyesno("Question","Are you sure you want to quit?")
 
     if message:
-        sys.exit()  #lukker systeemet hvis der svares "ja" til ovenstående besked
+        sys.exit()  #lukker systeemet hvis en "quit"-knap bliver trykket på
 
-        
 # Opretter og skjuler hovedprogram i baggrunden
 window=tk.Tk()
 window.withdraw()
 
-
 # opretter loginvindue, som bliver vist som det første
 login=tk.Toplevel()
-login.title("Login")
+login.title("SPACEBABES")
 login.geometry("340x440+400+200")
 login.configure(bg="#333333")
 login.resizable (width=False,height=False)
@@ -133,11 +131,10 @@ quit_button.grid(row=3,column=1,columnspan=2, pady=30, padx=30)
 
 login_frame.pack()
 
-
 # opretter CPR-vindue - bliver vist efter login
 cpr=tk.Toplevel()
 cpr.withdraw()      #denne skuler cpr-vinduet (det vil kun åbne, hvis login er en succes, se deflogin)
-cpr.title("CPR")
+cpr.title("SPACEBABES")
 cpr.geometry("340x440+400+200")
 cpr.configure(bg="#333333")
 cpr.resizable (width=False,height=False)
@@ -159,9 +156,32 @@ quit_button.grid(row=3,column=1,columnspan=2, pady=30, padx=30)
 
 cpr_frame.pack()
 
-
 # åbner hovedprogram, hvor man først kommer ind til grænseværdier
 window.geometry("1500x800+100+50")
+
+menu_frame = tk.Frame(window, bg="grey", highlightbackground="black", highlightthickness=2)
+menu_frame.pack()
+menu_frame.pack_propagate(False)
+menu_frame.configure(width=1500, heigh=100)
+
+quit_button = tk.Button(menu_frame, text="Quit", font=("Arial",15),command=quit)
+quit_button.place(x=0,y=0)
+
+puls_knap = tk.Button(menu_frame, text="Puls", font=("Arial",15))
+puls_knap.place(x=600,y=30, width=100, heigh=40)
+
+SpO2_knap = tk.Button(menu_frame, text="SpO2", font=("Arial",15))
+SpO2_knap.place(x=800,y=30, width=100, heigh=40)
+
+graf_frame = tk.Frame(window, bg="white", highlightbackground="black", highlightthickness=2)
+graf_frame.pack(side=tk.LEFT)
+graf_frame.pack_propagate(False)
+graf_frame.configure(width=750, heigh=700)
+
+data_frame = tk.Frame(window, bg="white", highlightbackground="black", highlightthickness=2)
+data_frame.pack(side=tk.LEFT)
+data_frame.pack_propagate(False)
+data_frame.configure(width=750, heigh=700)
 
 window.mainloop() #Starts the event loop for the main window
 
