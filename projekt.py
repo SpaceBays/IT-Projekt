@@ -78,6 +78,7 @@ import tkinter as tk
 from tkinter import messagebox
 import sys
 
+# funktion til hvis bruger forsøger at logge ind
 def trylogin():
     if username_entry.get() == "M" and password_entry.get() == "M":
         login.destroy() #lukker login-vinduet
@@ -85,6 +86,7 @@ def trylogin():
     else:
        messagebox.showwarning("login failed","Please try again" )
 
+# funktion til hvis bruger forsøger at indtaste CPR-nr
 def tryCPR():
     if cpr_entry.get() == "M": #Checks whether username and password are correct
         cpr.destroy()       # lukker cpr-vinduet
@@ -92,11 +94,54 @@ def tryCPR():
     else:
        messagebox.showwarning("Unknown CPR","Please try again" )
 
+# funktion til hvis bruger trykker på en "quit"-knap
 def quit():
     message = tk.messagebox.askyesno("Question","Are you sure you want to quit?")
 
     if message:
         sys.exit()  #lukker systeemet hvis en "quit"-knap bliver trykket på
+
+# funktion til hvis bruger trykker på "puls"-knappen på menulinjen
+def pulsknap():
+    puls_knap["state"] = "disabled"
+    SpO2_knap["state"] = "normal"
+
+    global Puls_graf_frame
+    Puls_graf_frame = tk.Frame(window, bg="white", highlightbackground="black", highlightthickness=2)
+    Puls_graf_frame.pack(side=tk.LEFT)
+    Puls_graf_frame.pack_propagate(False)
+    Puls_graf_frame.configure(width=750, heigh=700)
+
+    global Puls_data_frame
+    Puls_data_frame = tk.Frame(window, bg="white", highlightbackground="black", highlightthickness=2)
+    Puls_data_frame.pack(side=tk.LEFT)
+    Puls_data_frame.pack_propagate(False)
+    Puls_data_frame.configure(width=750, heigh=700)
+
+    forside_frame.pack_forget()
+    SpO2_graf_frame.pack_forget()
+    SpO2_data_frame.pack_forget()
+
+# funktion til hvis bruger trykker på "SpO2"-knappen på menulinjen
+def SpO2knap():
+    SpO2_knap["state"] = "disabled"
+    puls_knap["state"] = "normal"
+
+    global SpO2_graf_frame
+    SpO2_graf_frame = tk.Frame(window, bg="pink", highlightbackground="black", highlightthickness=2)
+    SpO2_graf_frame.pack(side=tk.LEFT)
+    SpO2_graf_frame.pack_propagate(False)
+    SpO2_graf_frame.configure(width=750, heigh=700)
+
+    global SpO2_data_frame
+    SpO2_data_frame = tk.Frame(window, bg="pink", highlightbackground="black", highlightthickness=2)
+    SpO2_data_frame.pack(side=tk.LEFT)
+    SpO2_data_frame.pack_propagate(False)
+    SpO2_data_frame.configure(width=750, heigh=700)
+
+    forside_frame.pack_forget()
+    Puls_graf_frame.pack_forget()
+    Puls_data_frame.pack_forget()
 
 # Opretter og skjuler hovedprogram i baggrunden
 window=tk.Tk()
@@ -156,7 +201,7 @@ quit_button.grid(row=3,column=1,columnspan=2, pady=30, padx=30)
 
 cpr_frame.pack()
 
-# åbner hovedprogram, hvor man først kommer ind til grænseværdier
+# åbner hovedprogram
 window.geometry("1500x800+100+50")
 
 menu_frame = tk.Frame(window, bg="grey", highlightbackground="black", highlightthickness=2)
@@ -167,22 +212,16 @@ menu_frame.configure(width=1500, heigh=100)
 quit_button = tk.Button(menu_frame, text="Quit", font=("Arial",15),command=quit)
 quit_button.place(x=0,y=0)
 
-puls_knap = tk.Button(menu_frame, text="Puls", font=("Arial",15))
+puls_knap = tk.Button(menu_frame, text="Puls", font=("Arial",15), command=pulsknap)
 puls_knap.place(x=600,y=30, width=100, heigh=40)
 
-SpO2_knap = tk.Button(menu_frame, text="SpO2", font=("Arial",15))
+SpO2_knap = tk.Button(menu_frame, text="SpO2", font=("Arial",15), command=SpO2knap)
 SpO2_knap.place(x=800,y=30, width=100, heigh=40)
 
-graf_frame = tk.Frame(window, bg="white", highlightbackground="black", highlightthickness=2)
-graf_frame.pack(side=tk.LEFT)
-graf_frame.pack_propagate(False)
-graf_frame.configure(width=750, heigh=700)
+forside_frame = tk.Frame(window, bg="grey", highlightbackground="black", highlightthickness=2)
+forside_frame.pack()
+forside_frame.pack_propagate(False)
+forside_frame.configure(width=1500, heigh=700)
 
-data_frame = tk.Frame(window, bg="white", highlightbackground="black", highlightthickness=2)
-data_frame.pack(side=tk.LEFT)
-data_frame.pack_propagate(False)
-data_frame.configure(width=750, heigh=700)
-
-window.mainloop() #Starts the event loop for the main window
-
+window.mainloop() 
 
