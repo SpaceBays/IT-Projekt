@@ -14,16 +14,16 @@ class program(tk.Tk):
         menu = menuframe(parent=self.menucontainer, controller=self)
         menu.place(x=0, y=0, width=1500, height=100)
 
-        self.container = tk.Frame(self)
-        self.container.place(width=1500, height=800)
-        self.container.pack( fill="both", expand=True, padx=0,pady=100)
-        self.container.grid_rowconfigure(0, weight=1)
-        self.container.grid_columnconfigure(0, weight=1)
+        self.framecontainer = tk.Frame(self)
+        self.framecontainer.place(width=1500, height=800)
+        self.framecontainer.pack( fill="both", expand=True, padx=0,pady=100)
+        self.framecontainer.grid_rowconfigure(0, weight=1)
+        self.framecontainer.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
         for F in (forsideframe,Graensevaerdierframe, pulsgrafframe, pulsdataframe, SpO2grafframe, SpO2dataframe):
             page_name = F.__name__
-            frame = F(parent=self.container, controller=self)
+            frame = F(parent=self.framecontainer, controller=self)
             self.frames[page_name] = frame
             frame.place(x=0, y=0, width=1500, height=800)
 
