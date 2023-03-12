@@ -59,6 +59,9 @@ class menuframe(tk.Frame):
         self.SpO2_data_knap = tk.Button(self, text="SpO2 data", font=("Arial", 15), command=lambda: controller.show_frame("SpO2dataframe"))
         self.SpO2_data_knap.place(x=1000, y=30, width=100, heigh=40)
 
+        self.forside_knap = tk.Button(self, text="Forside", font=("Arial", 15), command=lambda: controller.show_frame("forsideframe"))
+        self.forside_knap.place(x=50, y=0)
+        
         self.quit_button = tk.Button(self, text="Quit", font=("Arial", 15), command=self.quit)
         self.quit_button.place(x=0, y=0)
 
