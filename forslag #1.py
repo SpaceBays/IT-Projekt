@@ -12,8 +12,8 @@ class program(tk.Tk):
         # opretter en tom frame, hvor menuframen skal placeres i
         self.menucontainer = tk.Frame(self)
         self.menucontainer.place(x=0, y=0, width=1500, height=100)
-        menu = menuframe(parent=self.menucontainer, controller=self)
-        menu.place(x=0, y=0, width=1500, height=100)
+        self.menu = menuframe(parent=self.menucontainer, controller=self)
+        self.menu.place(x=0, y=0, width=1500, height=100)
 
         # opretter en tom frame, som via for-loopen får "stacket" frames oven på hinanden. Den frame, der høre til den knap i menulinjen, der trykkes på, vil blive lagt øverst i stacken, og blive vist på skærmen
         self.framecontainer = tk.Frame(self)
