@@ -74,6 +74,7 @@ class forsideframe(tk.Frame):
         self.controller = controller
 
         self.forside_frame = tk.Frame(self, bg="grey", highlightbackground="black", highlightthickness=2)
+        self.forside_frame = tk.Label(self, bg="grey" ,text="SPACEBABES", font = ("Arial#", 100))
         self.forside_frame.place(x=0, y=0, width=1500, height=800)
 
 class Graensevaerdierframe(tk.Frame):
