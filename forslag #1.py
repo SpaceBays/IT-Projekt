@@ -5,18 +5,18 @@ import sys
 class program(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
-        # Sætter størrelse for selve vinduet, og gør det ujusterbart
+        # Sætter størrelse for selve vinduet, angiver en titel, og gør det ujusterbart
         self.geometry("1500x800+100+50")
         self.title("")
         self.resizable(False, False)
 
-        # opretter en tom frame, hvor menuframen skal placeres i
+        # opretter en tom frame i vores vindue, hvor menuframen efterfølgende placeres i
         self.menucontainer = tk.Frame(self)
         self.menucontainer.place(x=0, y=0, width=1500, height=100)
         self.menu = menuframe(parent=self.menucontainer, controller=self)
         self.menu.place(x=0, y=0, width=1500, height=100)
 
-        # opretter en tom frame, som via for-loopen får "stacket" frames oven på hinanden. Den frame, der høre til den knap i menulinjen, der trykkes på, vil blive lagt øverst i stacken, og blive vist på skærmen
+        # opretter en tom frame, som har til formål via for-loopen at få "stacket" frames oven på hinanden. Den frame, der høre til den knap i menulinjen, der trykkes på, vil blive lagt øverst i stacken, og blive vist på skærmen
         self.framecontainer = tk.Frame(self)
         self.framecontainer.place(x=0, y=100, width=1500, height=800)
 
@@ -27,7 +27,7 @@ class program(tk.Tk):
             self.frames[page_name] = frame
             frame.place(x=0, y=0, width=1500, height=800)
 
-        # funktionen nedenfor angiver "forsideframe" som den første der skal lægge, når programmet åbner. der bruges her "show_frame"-funktionen
+        # funktionen nedenfor angiver "forsideframe" som den første der skal vises (stackes øverst), når programmet åbner. Der bruges her "show_frame"-funktionen
         self.show_frame("forsideframe")
 
     # en funktion, der afhængig af hvilken knap i menulinjen der trykkes på, viser den dertilhørende frame (funktionen benytter iterationen ovenfor, som sørger for at ønskede frame lægger øverst i stacken)
@@ -35,7 +35,7 @@ class program(tk.Tk):
         frame = self.frames[page_name]
         frame.tkraise()
 
-#her er menuframeklassen. de indeholder hele menulinje. menulinjen placeres i "menucontainer"-framen fra "program"-klassen ovenfor
+#her er menuframeklassen. Den indeholder hele menulinje. menulinjen placeres i "menucontainer"-framen fra "program"-klassen ovenfor
 #knapperne referer til frames i andre klasser. måden frames bliver switchet er via "show_frame"-funktionen i "program"-klassen ovenfor. Det er en såkaldt "controller", der sørger for at det kan lade sg gøre, og at klasserne kan kommunikere sammen på tværs
 class menuframe(tk.Frame):
     def __init__(self, parent, controller):
@@ -68,7 +68,7 @@ class menuframe(tk.Frame):
         if message:
             sys.exit()
 
-#resten af klasserne nedenfor er frames, der placeres i "framecontainer"-framen i "program"-klassen ovenfor. alt afhngig af hvilken menuknap der trykkes på, vil dertilhørende klasse med frame i blive kaldt.
+#resten af klasserne nedenfor er frames, der placeres i "framecontainer"-framen i "program"-klassen ovenfor. Alt afhængig af hvilken menuknap der trykkes på, vil dertilhørende klasse med frame i blive kaldt.
 class forsideframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -118,7 +118,7 @@ class SpO2dataframe(tk.Frame):
         self.SpO2_data_frame = tk.Frame(self, bg="yellow", highlightbackground="black", highlightthickness=2)
         self.SpO2_data_frame.place(x=0, y=0, width=1500, height=800)
 
-# her kaldes og køres selve programmet. vinduet og programmet er samlet i de klasse der hedder "program", hvorfor det er den der kaldes nedenfor
+# her kaldes og køres selve programmet. Vinduet og selve programmet er samlet i den klasse der hedder "program", hvorfor det er den der kaldes nedenfor
 if __name__ == "__main__":
     Programmet = program()
     Programmet.mainloop()
