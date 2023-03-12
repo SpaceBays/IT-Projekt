@@ -7,6 +7,7 @@ class program(tk.Tk):
         tk.Tk.__init__(self)
         # Sætter størrelse for selve vinduet, og gør det ujusterbart
         self.geometry("1500x800+100+50")
+        self.title("")
         self.resizable(False, False)
 
         # opretter en tom frame, hvor menuframen skal placeres i
