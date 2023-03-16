@@ -185,6 +185,7 @@ class Graensevaerdierframe(tk.Frame):
                 message = tk.messagebox.askyesno("quenstion", "Ønsker du at fortsætte med de valgte værdier?")
                 if message:
                     program().show_frame("forsideframe")
+                    break
 
     def default_grens(self):
         minKri = 40
