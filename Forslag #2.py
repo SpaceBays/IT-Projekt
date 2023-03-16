@@ -178,10 +178,13 @@ class Graensevaerdierframe(tk.Frame):
             if len(g) == 0:
                 messagebox.showwarning("Warning", "Manglende værdi. Prøv igen")
 
-        if grens.pop != 0:
-            message = tk.messagebox.askyesno("quenstion", "Ønsker du at fortsætte med de valgte værdier?")
-            if message:
-                program().show_frame("forsideframe")
+        for g in grens:
+            if len(g) == 0:
+                break
+            if len(g) != 0:
+                message = tk.messagebox.askyesno("quenstion", "Ønsker du at fortsætte med de valgte værdier?")
+                if message:
+                    program().show_frame("forsideframe")
 
     def default_grens(self):
         minKri = 40
