@@ -86,8 +86,83 @@ class Graensevaerdierframe(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        self.graensevaerdier_frame = tk.Frame(self, bg="black", highlightbackground="black", highlightthickness=2)
+        self.graensevaerdier_frame = tk.Frame(self, bg="grey", highlightbackground="black", highlightthickness=2)
         self.graensevaerdier_frame.place(x=0, y=0, width=1500, height=800)
+
+        self.minEw = tk.StringVar()
+        self.maxEw = tk.StringVar()
+        self.minKri = tk.StringVar()
+        self.maxkri = tk.StringVar()
+
+        self.ewIlt = tk.StringVar()
+        self.kriIlt = tk.StringVar()
+
+        # Puls frame
+        self.frame1 = tk.Frame(self.graensevaerdier_frame, width=50, height=50, bg="white", highlightbackground="black", highlightthickness=1)
+        self.frame1.pack(expand=True, side=tk.LEFT)
+
+        # minEw puls
+        minEw = tk.Label(self.frame1, text="minEw")
+        minEw.pack(fill='x', expand=True)
+
+        self.minEw_entry = tk.Entry(self.frame1, textvariable=minEw)
+        self.minEw_entry.pack(fill='x', expand=True)
+        self.minEw_entry.focus()
+
+        maxEw = tk.Label(self.frame1, text="maxEw")
+        maxEw.pack(fill='x', expand=True)
+
+        self.maxEw_entry = tk.Entry(self.frame1, textvariable=maxEw)
+        self.maxEw_entry.pack(fill='x', expand=True)
+        self.maxEw_entry.focus()
+
+        # minKri puls
+        minKri = tk.Label(self.frame1, text="minKri")
+        minKri.pack(fill='x', expand=True)
+
+        self.minKri_entry = tk.Entry(self.frame1, textvariable=minKri)
+        self.minKri_entry.pack(fill='x', expand=True)
+        self.minKri_entry.focus()
+
+        # maxKri puls
+        maxKri = tk.Label(self.frame1, text="maxKri")
+        maxKri.pack(fill='x', expand=True)
+
+        self.maxKri_entry = tk.Entry(self.frame1, textvariable=maxKri)
+        self.maxKri_entry.pack(fill='x', expand=True)
+        self.maxKri_entry.focus()
+
+        # Ilt frame
+        self.frame2 = tk.Frame(self.graensevaerdier_frame, width=10, height=100, bg="red", highlightbackground="black", highlightthickness=1)
+        self.frame2.pack(padx=1, pady=1, side=tk.RIGHT)
+
+        # EW ilt
+        ewIlt = tk.Label(self.frame2, text="Early warning iltmætning")
+        ewIlt.pack(fill='x', expand=True)
+
+        self.ewIlt_entry = tk.Entry(self.frame2, textvariable=ewIlt, )
+        self.ewIlt_entry.pack(fill='x', expand=True)
+        self.ewIlt_entry.focus()
+
+        # Kritisk ilt værdi
+        kriIlt = tk.Label(self.frame2, text="Kritisk iltmætning")
+        kriIlt.pack(fill='x', expand=True)
+
+        self.kriIlt_entry = tk.Entry(self.frame2, textvariable=kriIlt, )
+        self.kriIlt_entry.pack(fill='x', expand=True)
+        self.kriIlt_entry.focus()
+
+        # Midten frame
+        self.frame3 = tk.Frame(self.graensevaerdier_frame, width=10, height=10, bg="blue")
+        self.frame3.pack(expand=True, side=tk.LEFT)
+
+        # enter button
+        self.enter_button = tk.Button(self.frame3, text="Enter")
+        self.enter_button.grid(row=1, column=3)
+
+        # default button
+        self.default_button = tk.Button(self.frame3, text="Default")
+        self.default_button.grid(row=1, column=4)
 
 class pulsgrafframe(tk.Frame):
     def __init__(self, parent, controller):
