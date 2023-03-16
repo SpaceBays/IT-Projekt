@@ -186,6 +186,8 @@ class Graensevaerdierframe(tk.Frame):
                 if message:
                     program().show_frame("forsideframe")
                     break
+                else:
+                    break
 
     def default_grens(self):
         minKri = 40
