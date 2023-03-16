@@ -29,7 +29,7 @@ class program(tk.Tk):
             frame.place(x=0, y=0, width=1500, height=800)
 
         # funktionen nedenfor angiver "forsideframe" som den første der skal vises (stackes øverst), når programmet åbner. Der bruges her "show_frame"-funktionen
-        self.show_frame("forsideframe")
+        self.show_frame("Graensevaerdierframe")
 
     # en funktion, der afhængig af hvilken knap i menulinjen der trykkes på, viser den dertilhørende frame (funktionen benytter iterationen ovenfor, som sørger for at ønskede frame lægger øverst i stacken)
     def show_frame(self, page_name):
@@ -65,10 +65,6 @@ class menuframe(tk.Frame):
         self.SpO2_data_knap = tk.Button(self.menu_frame, text="SpO2 data", font=("Arial", 15),
                                         command=lambda: controller.show_frame("SpO2dataframe"))
         self.SpO2_data_knap.place(x=1000, y=30, width=100, heigh=40)
-
-        self.forside_knap = tk.Button(self.menu_frame, text="Forside", font=("Arial", 15),
-                                      command=lambda: controller.show_frame("forsideframe"))
-        self.forside_knap.place(x=50, y=0)
 
         self.quit_button = tk.Button(self.menu_frame, text="Quit", font=("Arial", 15), command=self.quit)
         self.quit_button.place(x=0, y=0)
@@ -165,25 +161,41 @@ class Graensevaerdierframe(tk.Frame):
         self.enter_button.grid(row=1, column=3)
 
         # default button
-        self.default_button = tk.Button(self.frame3, text="Default")
+        self.default_button = tk.Button(self.frame3, text="Default", command=self.default_grens)
         self.default_button.grid(row=1, column=4)
 
     def save_grens(self):
+        minKri = self.minKri_entry.get()
         minEw = self.minEw_entry.get()
         maxEw = self.maxEw_entry.get()
-        minKri = self.minKri_entry.get()
         maxKri = self.maxKri_entry.get()
 
         ewIlt = self.ewIlt_entry.get()
         kriIlt = self.kriIlt_entry.get()
 
-        print(minEw)
-        print(maxEw)
-        print(minKri)
-        print(maxKri)
-        print(ewIlt)
-        print(kriIlt)
+        grens = {minKri, minEw, maxEw, maxKri, ewIlt, kriIlt}
+        for g in grens:
+            if len(g) == 0:
+                messagebox.showwarning("Warning", "Manglende værdi. Prøv igen")
 
+        for g in grens:
+            if g[len(g)-1] != 0:
+                message = tk.messagebox.askyesno("quenstion", "Ønsker du at fortsætte med de valgte værdier?")
+                if message:
+                    program().show_frame("forsideframe")
+
+    def default_grens(self):
+        minKri = 40
+        minEw = 60
+        maxEw = 100
+        maxKri = 120
+
+        ewIlt = 95
+        kriIlt = 90
+
+        message = tk.messagebox.askyesno("quenstion", "Ønsker du at fortsætte med default?")
+        if message:
+            program().show_frame("forsideframe")
 
 class pulsgrafframe(tk.Frame):
     def __init__(self, parent, controller):
