@@ -25,4 +25,26 @@ for i in range(100):
 
 f.close()
 
-hi
+______________________________________________________________________________________________________________________________________________________________
+
+pullData=[]
+
+class Sensor:
+
+    def __init__(self):
+        self.ilt
+        
+        self.pullData = open("SpO2.txt","r").readlines()
+        for i in range(len(self.pullData)):
+            pullData[i]=pullData[i].rstrip()
+
+    
+    def getIlt(self):
+        self.pullData= pullData+1
+
+
+class ilt:
+
+    def __init__(self):
+        q=Sensor().getIlt() 
+        print(q)
