@@ -84,14 +84,21 @@ app.mainloop()
 
 ______________________________________________________________
 
-pullData = open("SpO2.txt", "r").readlines()
-for i in range(len(pullData)):
-    pullData[i] = pullData[i].rstrip()
+class Sensor:
+    def __init__(self):
 
+        self.pullData = open("SpO2.txt", "r").readlines()
+        for i in range(len(self.pullData)):
+            self.pullData[i] = self.pullData[i].rstrip()
 
-for i in pullData:
-    while len(pullData) != 0:
-        q = pullData.pop(0)
-        print(q)
+    def getdata(self):
+        for i in self.pullData:
+            while len(self.pullData) != 0:
+                q = self.pullData.pop(0)
+                print(q)
+
+q = Sensor()
+q.getdata()
+print(q)
         
         
