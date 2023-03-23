@@ -93,7 +93,7 @@ class Sensor:
 
     def getdata(self):
         for i in self.pullData:
-            if len(self.pullData) != 0:
+            while len(self.pullData) != 0:
                 q = self.pullData.pop(0)
                 print(q)
         # return skal indgå et sted, for at undgå at den udskriver None
