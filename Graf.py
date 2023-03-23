@@ -93,7 +93,7 @@ class Sensor:
 
     def getdata(self):
         for i in self.pullData:
-            while len(self.pullData) != 0:
+            if len(self.pullData) != 0:
                 q = self.pullData.pop(0)
                 print(q)
 
