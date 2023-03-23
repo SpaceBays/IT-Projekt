@@ -96,9 +96,8 @@ class Sensor:
             while len(self.pullData) != 0:
                 q = self.pullData.pop(0)
                 print(q)
-        # return skal indgå et sted, for at undgå at den udskriver None
 
-q = Sensor().getdata()
-#print(q)
+Sensor().getdata()
+
         
         
