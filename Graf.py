@@ -98,8 +98,7 @@ class Sensor:
                 print(q)
         # return skal indgå et sted, for at undgå at den udskriver None
 
-q = Sensor()
-q.getdata()
-print(q)
+q = Sensor().getdata()
+#print(q)
         
         
