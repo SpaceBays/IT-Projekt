@@ -78,3 +78,20 @@ class PageThree(tk.Frame):
 app = SeaofBTCapp()
 ani = animation.FuncAnimation(f, animate)
 app.mainloop()
+
+
+
+
+______________________________________________________________
+
+pullData = open("SpO2.txt", "r").readlines()
+for i in range(len(pullData)):
+    pullData[i] = pullData[i].rstrip()
+
+
+for i in pullData:
+    while len(pullData) != 0:
+        q = pullData.pop(0)
+        print(q)
+        
+        
