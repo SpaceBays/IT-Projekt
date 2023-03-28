@@ -99,5 +99,44 @@ class Sensor:
 
 Sensor().getdata()
 
+_________________________________________________________________________________________________________
+
+import matplotlib.pyplot as plt
+from matplotlib import animation
+
+
+class Sensor:
+    def __init__(self):
+        self.pullData = open("SpO2.txt", "r").readlines()
+        for i in range(len(self.pullData)):
+            self.pullData[i] = self.pullData[i].rstrip()
+
+    def getdata(self):
+        q=self.pullData
+        return q
+
+count =0
+ilt_data = Sensor().getdata()
+x=[]
+y=[]
+
+def tegn_graf(i):
+    global count
+    count +=1
+    x.append(count)
+    y.append(ilt_data[count])
+    plt.grid()
+    plt.cla()
+    plt.plot(x,y)
+    plt.xlabel("Tid i sekunder (s)")
+    plt.ylabel("SpO2-værdi")
+    plt.title("Graf for SpO2-værdi")
+
+        
+graf = animation.FuncAnimation(plt.gcf(),tegn_graf,interval=1500)
+plt.show()  
+
+
+
         
         
