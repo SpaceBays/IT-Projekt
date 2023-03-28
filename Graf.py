@@ -136,6 +136,48 @@ def tegn_graf(i):
 graf = animation.FuncAnimation(plt.gcf(),tegn_graf,interval=1500)
 plt.show()  
 
+_______________________________________________________________________________________________________________
+import matplotlib.pyplot as plt
+from matplotlib import animation
+
+
+class Sensor:
+    def __init__(self):
+        self.index = 0
+        self.pullData = open("SpO2.txt", "r").readlines()
+        for i in range(len(self.pullData)):
+            self.pullData[i] = self.pullData[i].rstrip()
+        #print(self.pullData)
+
+    def getdata(self):
+        q=self.pullData[self.index]
+        self.index = self.index +1 
+        return int(q)
+
+sensor = Sensor()
+ilt_data =[]
+#ilt_data.append(sensor.getdata())
+
+#print(ilt_data)
+x=[]
+y=[]
+
+def tegn_graf(i):
+    ilt_data.append(sensor.getdata())
+    x.append(len(ilt_data))
+    y=ilt_data
+    plt.grid()
+    plt.plot(x,y)
+    #print(x,y)
+    plt.xlabel("Tid i sekunder (s)")
+    plt.ylabel("SpO2-værdi")
+    plt.title("Graf for SpO2-værdi")
+
+#print(ilt_data)
+graf = animation.FuncAnimation(plt.gcf(),tegn_graf,interval=1500)
+plt.show()  
+
+
 
 
         
