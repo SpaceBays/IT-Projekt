@@ -4,6 +4,8 @@ import sys
 from matplotlib import animation
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import sqlite3
+import datetime
 
 class program(tk.Tk):
     def __init__(self):
@@ -222,29 +224,34 @@ class Sensor:
         for i in range(len(self.pullData)):
             self.pullData[i] = self.pullData[i].rstrip()
 
+            try:
+                currentDateTime = datetime.datetime.now()
+
+                connection = sqlite3.connect('/Users/rebeccatimm/Desktop/Database.db')
+                c = connection.cursor()
+
+                c.execute('INSERT INTO Puls (Måling, Tid) VALUES (?,?)', (self.pullData[i], currentDateTime,))
+                connection.commit()
+
+                c.execute('SELECT Nummer, Måling FROM Puls ORDER BY Nummer  ASC')
+                records = c.fetchall()
+                
+                for row in records:
+                    print(row[1])
+                connection.commit()
+
+
+            except sqlite3.Error as e:
+                print("kommunikationsfejl med database:", e)
+
+            finally:
+                c.close()
+                connection.close()
+
     def getdata(self):
         q=self.pullData[self.index]
         self.index = self.index +1
         return int(q)
-
-
-f = Figure(dpi=150)
-a = f.add_subplot(111)
-
-sensor = Sensor()
-ilt_data =[]
-x=[]
-y=[]
-
-def tegn_graf(i):
-    ilt_data.append(sensor.getdata())
-    x.append(len(ilt_data))
-    y=ilt_data
-    a.grid(False)
-    a.plot(x,y, color="black")
-    a.set_title('Graf for SpO2-værdi', fontsize=20)
-    a.set_xlabel('Tid i sekunder (s)', fontsize=15)
-    a.set_ylabel('SpO2-værdi', fontsize=15)
 
 class SpO2grafframe(tk.Frame):
     def __init__(self, parent, controller):
@@ -254,6 +261,24 @@ class SpO2grafframe(tk.Frame):
         SpO2_graf_frame = FigureCanvasTkAgg(f, self)
         SpO2_graf_frame.get_tk_widget().place(x=0, y=0, width=1000, height=700)
 
+
+f = Figure(dpi=150)
+a = f.add_subplot(111)
+
+sensor = Sensor()
+ilt_data = []
+x=[]
+y=[]
+
+def tegn_graf(i):
+    ilt_data.append(sensor.getdata())
+    x.append(len(ilt_data))
+    y=ilt_data
+    a.grid(True)
+    a.plot(x,y, color="black")
+    a.set_title('Graf for SpO2-værdi', fontsize=20)
+    a.set_xlabel('Tid i sekunder (s)', fontsize=15)
+    a.set_ylabel('SpO2-værdi', fontsize=15)
 
 if __name__ == "__main__":
     Programmet = program()
