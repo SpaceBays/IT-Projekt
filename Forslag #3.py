@@ -247,11 +247,11 @@ class Sensor:
 
                 c.execute('SELECT Nummer, Måling FROM Ilt ORDER BY Nummer  ASC')
                 records = c.fetchall()
-
-                for row in records:
-                    print(row[1])
                 connection.commit()
 
+                self.pullData1 = []
+                for row in records:
+                    self.pullData1.append(row[1])
 
             except sqlite3.Error as e:
                 print("kommunikationsfejl med database:", e)
@@ -261,7 +261,7 @@ class Sensor:
                 connection.close()
 
     def getdata(self):
-        q = self.pullData[self.index]
+        q = self.pullData1[self.index]
         self.index = self.index + 1
         return int(q)
 
@@ -283,7 +283,6 @@ ilt_data = []
 x = []
 y = []
 
-
 def tegn_graf(i):
     ilt_data.append(sensor.getdata())
     x.append(len(ilt_data))
@@ -299,3 +298,4 @@ if __name__ == "__main__":
     Programmet = program()
     graf = animation.FuncAnimation(f, tegn_graf, interval=1500)
     Programmet.mainloop()
+
