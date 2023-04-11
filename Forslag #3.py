@@ -7,6 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import sqlite3
 import datetime
 
+
 class program(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
@@ -35,6 +36,7 @@ class program(tk.Tk):
         frame = self.frames[page_name]
         frame.tkraise()
 
+
 class menuframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -43,19 +45,24 @@ class menuframe(tk.Frame):
         menu_frame = tk.Frame(self, bg="grey", highlightbackground="black", highlightthickness=2)
         menu_frame.place(x=0, y=0, width=1000, height=100)
 
-        graenseværdier = tk.Button(menu_frame, text="Grænser", font=("Arial", 15),command=lambda: controller.show_frame("Graensevaerdierframe"))
+        graenseværdier = tk.Button(menu_frame, text="Grænser", font=("Arial", 15),
+                                   command=lambda: controller.show_frame("Graensevaerdierframe"))
         graenseværdier.place(x=100, y=30, width=100, heigh=40)
 
-        puls_graf_knap = tk.Button(menu_frame, text="Puls graf", font=("Arial", 15),command=lambda: controller.show_frame("pulsgrafframe"))
+        puls_graf_knap = tk.Button(menu_frame, text="Puls graf", font=("Arial", 15),
+                                   command=lambda: controller.show_frame("pulsgrafframe"))
         puls_graf_knap.place(x=300, y=30, width=100, heigh=40)
 
-        puls_data_knap = tk.Button(menu_frame, text="Puls data", font=("Arial", 15),command=lambda: controller.show_frame("pulsdataframe"))
+        puls_data_knap = tk.Button(menu_frame, text="Puls data", font=("Arial", 15),
+                                   command=lambda: controller.show_frame("pulsdataframe"))
         puls_data_knap.place(x=450, y=30, width=100, heigh=40)
 
-        SpO2_graf_knap = tk.Button(menu_frame, text="SpO2 graf", font=("Arial", 15),command=lambda: controller.show_frame("SpO2grafframe"))
+        SpO2_graf_knap = tk.Button(menu_frame, text="SpO2 graf", font=("Arial", 15),
+                                   command=lambda: controller.show_frame("SpO2grafframe"))
         SpO2_graf_knap.place(x=650, y=30, width=100, heigh=40)
 
-        SpO2_data_knap = tk.Button(menu_frame, text="SpO2 data", font=("Arial", 15),command=lambda: controller.show_frame("SpO2dataframe"))
+        SpO2_data_knap = tk.Button(menu_frame, text="SpO2 data", font=("Arial", 15),
+                                   command=lambda: controller.show_frame("SpO2dataframe"))
         SpO2_data_knap.place(x=800, y=30, width=100, heigh=40)
 
         quit_button = tk.Button(menu_frame, text="Quit", font=("Arial", 15), command=self.quit)
@@ -89,7 +96,8 @@ class Graensevaerdierframe(tk.Frame):
         overskrift.place(x=350, y=30)
 
         # Puls frame
-        frame1 = tk.Frame(graensevaerdier_frame, width=50, height=50, bg="white", highlightbackground="black",highlightthickness=1)
+        frame1 = tk.Frame(graensevaerdier_frame, width=50, height=50, bg="white", highlightbackground="black",
+                          highlightthickness=1)
         frame1.pack(expand=True, side=tk.LEFT)
 
         # minEw puls
@@ -124,7 +132,8 @@ class Graensevaerdierframe(tk.Frame):
         self.maxKri_entry.focus()
 
         # Ilt frame
-        frame2 = tk.Frame(graensevaerdier_frame, width=10, height=100, bg="red", highlightbackground="black",highlightthickness=1)
+        frame2 = tk.Frame(graensevaerdier_frame, width=10, height=100, bg="red", highlightbackground="black",
+                          highlightthickness=1)
         frame2.pack(expand=True, side=tk.RIGHT)
 
         # EW ilt
@@ -192,6 +201,7 @@ class Graensevaerdierframe(tk.Frame):
         if message:
             program().show_frame("forsideframe")
 
+
 class pulsgrafframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -209,6 +219,7 @@ class pulsdataframe(tk.Frame):
         puls_data_frame = tk.Frame(self, bg="blue", highlightbackground="black", highlightthickness=2)
         puls_data_frame.place(x=0, y=0, width=1000, height=700)
 
+
 class SpO2dataframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -216,6 +227,7 @@ class SpO2dataframe(tk.Frame):
 
         SpO2_data_frame = tk.Frame(self, bg="yellow", highlightbackground="black", highlightthickness=2)
         SpO2_data_frame.place(x=0, y=0, width=1000, height=700)
+
 
 class Sensor:
     def __init__(self):
@@ -230,12 +242,12 @@ class Sensor:
                 connection = sqlite3.connect('/Users/rebeccatimm/Desktop/Database.db')
                 c = connection.cursor()
 
-                c.execute('INSERT INTO Puls (Måling, Tid) VALUES (?,?)', (self.pullData[i], currentDateTime,))
+                c.execute('INSERT INTO Ilt (Måling, Tid) VALUES (?,?)', (self.pullData[i], currentDateTime,))
                 connection.commit()
 
-                c.execute('SELECT Nummer, Måling FROM Puls ORDER BY Nummer  ASC')
+                c.execute('SELECT Nummer, Måling FROM Ilt ORDER BY Nummer  ASC')
                 records = c.fetchall()
-                
+
                 for row in records:
                     print(row[1])
                 connection.commit()
@@ -249,9 +261,10 @@ class Sensor:
                 connection.close()
 
     def getdata(self):
-        q=self.pullData[self.index]
-        self.index = self.index +1
+        q = self.pullData[self.index]
+        self.index = self.index + 1
         return int(q)
+
 
 class SpO2grafframe(tk.Frame):
     def __init__(self, parent, controller):
@@ -267,22 +280,22 @@ a = f.add_subplot(111)
 
 sensor = Sensor()
 ilt_data = []
-x=[]
-y=[]
+x = []
+y = []
+
 
 def tegn_graf(i):
     ilt_data.append(sensor.getdata())
     x.append(len(ilt_data))
-    y=ilt_data
+    y = ilt_data
     a.grid(True)
-    a.plot(x,y, color="black")
+    a.plot(x, y, color="black")
     a.set_title('Graf for SpO2-værdi', fontsize=20)
     a.set_xlabel('Tid i sekunder (s)', fontsize=15)
     a.set_ylabel('SpO2-værdi', fontsize=15)
+
 
 if __name__ == "__main__":
     Programmet = program()
     graf = animation.FuncAnimation(f, tegn_graf, interval=1500)
     Programmet.mainloop()
-
-
