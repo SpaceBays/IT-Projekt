@@ -308,7 +308,6 @@ if __name__ == "__main__":
 ________________________________________________________________________________________
 
 
-
 import tkinter as tk
 from tkinter import messagebox
 from matplotlib import animation
@@ -317,6 +316,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import sqlite3
 import datetime
 import sys
+
 
 class program(tk.Tk):
     def __init__(self):
@@ -356,23 +356,23 @@ class menuframe(tk.Frame):
         menu_frame.place(x=0, y=0, width=1000, height=100)
 
         graenseværdier = tk.Button(menu_frame, text="Grænser", font=("Arial", 15),
-                                   command=lambda: controller.show_frame("Graensevaerdierframe"))
+                                   command=lambda: self.controller.show_frame("Graensevaerdierframe"))
         graenseværdier.place(x=100, y=30, width=100, heigh=40)
 
         puls_graf_knap = tk.Button(menu_frame, text="Puls graf", font=("Arial", 15),
-                                   command=lambda: controller.show_frame("pulsgrafframe"))
+                                   command=lambda: self.controller.show_frame("pulsgrafframe"))
         puls_graf_knap.place(x=300, y=30, width=100, heigh=40)
 
         puls_data_knap = tk.Button(menu_frame, text="Puls data", font=("Arial", 15),
-                                   command=lambda: controller.show_frame("pulsdataframe"))
+                                   command=lambda: self.controller.show_frame("pulsdataframe"))
         puls_data_knap.place(x=450, y=30, width=100, heigh=40)
 
         SpO2_graf_knap = tk.Button(menu_frame, text="SpO2 graf", font=("Arial", 15),
-                                   command=lambda: controller.show_frame("SpO2grafframe"))
+                                   command=lambda: self.controller.show_frame("SpO2grafframe"))
         SpO2_graf_knap.place(x=650, y=30, width=100, heigh=40)
 
         SpO2_data_knap = tk.Button(menu_frame, text="SpO2 data", font=("Arial", 15),
-                                   command=lambda: controller.show_frame("SpO2dataframe"))
+                                   command=lambda: self.controller.show_frame("SpO2dataframe"))
         SpO2_data_knap.place(x=800, y=30, width=100, heigh=40)
 
         quit_button = tk.Button(menu_frame, text="Quit", font=("Arial", 15), command=self.quit)
@@ -388,7 +388,6 @@ class menuframe(tk.Frame):
 class forsideframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.controller = controller
 
         forside_frame = tk.Frame(self, bg="grey", highlightbackground="black", highlightthickness=2)
         forside_frame.place(x=0, y=0, width=1000, height=700)
@@ -493,7 +492,7 @@ class Graensevaerdierframe(tk.Frame):
             if len(g) != 0:
                 message = tk.messagebox.askyesno("quenstion", "Ønsker du at fortsætte med de valgte værdier?")
                 if message:
-                    program().show_frame("forsideframe")
+                    self.controller.show_frame("forsideframe")
                     break
                 else:
                     break
@@ -509,13 +508,12 @@ class Graensevaerdierframe(tk.Frame):
 
         message = tk.messagebox.askyesno("quenstion", "Ønsker du at fortsætte med default?")
         if message:
-            program().show_frame("forsideframe")
+           self.controller.show_frame("forsideframe")
 
 
 class pulsgrafframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.controller = controller
 
         puls_graf_frame = tk.Frame(self, bg="pink", highlightbackground="black", highlightthickness=2)
         puls_graf_frame.place(x=0, y=0, width=1000, height=700)
@@ -524,7 +522,6 @@ class pulsgrafframe(tk.Frame):
 class pulsdataframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.controller = controller
 
         puls_data_frame = tk.Frame(self, bg="blue", highlightbackground="black", highlightthickness=2)
         puls_data_frame.place(x=0, y=0, width=1000, height=700)
@@ -533,7 +530,6 @@ class pulsdataframe(tk.Frame):
 class SpO2dataframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.controller = controller
 
         SpO2_data_frame = tk.Frame(self, bg="yellow", highlightbackground="black", highlightthickness=2)
         SpO2_data_frame.place(x=0, y=0, width=1000, height=700)
@@ -579,7 +575,6 @@ class Sensor:
 class SpO2grafframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        self.controller = controller
 
         SpO2_graf_frame = FigureCanvasTkAgg(f, self)
         SpO2_graf_frame.get_tk_widget().place(x=0, y=0, width=1000, height=700)
@@ -592,6 +587,7 @@ sensor = Sensor()
 ilt_data = []
 x = []
 y = []
+
 
 def tegn_graf(i):
     ilt_data.append(sensor.getdata())
@@ -608,8 +604,3 @@ if __name__ == "__main__":
     Programmet = program()
     graf = animation.FuncAnimation(f, tegn_graf, interval=1500)
     Programmet.mainloop()
-    
-    
- 
-
-
