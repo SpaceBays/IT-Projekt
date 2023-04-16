@@ -309,6 +309,7 @@ ________________________________________________________________________________
 
 
 import tkinter as tk
+from tkinter import *
 from tkinter import messagebox
 from matplotlib import animation
 from matplotlib.figure import Figure
@@ -316,7 +317,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import sqlite3
 import datetime
 import sys
-
 
 class program(tk.Tk):
     def __init__(self):
@@ -355,24 +355,19 @@ class menuframe(tk.Frame):
         menu_frame = tk.Frame(self, bg="grey", highlightbackground="black", highlightthickness=2)
         menu_frame.place(x=0, y=0, width=1000, height=100)
 
-        graenseværdier = tk.Button(menu_frame, text="Grænser", font=("Arial", 15),
-                                   command=lambda: self.controller.show_frame("Graensevaerdierframe"))
+        graenseværdier = tk.Button(menu_frame, text="Grænser", font=("Arial", 15), command=lambda: self.controller.show_frame("Graensevaerdierframe"))
         graenseværdier.place(x=100, y=30, width=100, heigh=40)
 
-        puls_graf_knap = tk.Button(menu_frame, text="Puls graf", font=("Arial", 15),
-                                   command=lambda: self.controller.show_frame("pulsgrafframe"))
+        puls_graf_knap = tk.Button(menu_frame, text="Puls graf", font=("Arial", 15), command=lambda: self.controller.show_frame("pulsgrafframe"))
         puls_graf_knap.place(x=300, y=30, width=100, heigh=40)
 
-        puls_data_knap = tk.Button(menu_frame, text="Puls data", font=("Arial", 15),
-                                   command=lambda: self.controller.show_frame("pulsdataframe"))
+        puls_data_knap = tk.Button(menu_frame, text="Puls data", font=("Arial", 15), command=lambda: self.controller.show_frame("pulsdataframe"))
         puls_data_knap.place(x=450, y=30, width=100, heigh=40)
 
-        SpO2_graf_knap = tk.Button(menu_frame, text="SpO2 graf", font=("Arial", 15),
-                                   command=lambda: self.controller.show_frame("SpO2grafframe"))
+        SpO2_graf_knap = tk.Button(menu_frame, text="SpO2 graf", font=("Arial", 15), command=lambda: self.controller.show_frame("SpO2grafframe"))
         SpO2_graf_knap.place(x=650, y=30, width=100, heigh=40)
 
-        SpO2_data_knap = tk.Button(menu_frame, text="SpO2 data", font=("Arial", 15),
-                                   command=lambda: self.controller.show_frame("SpO2dataframe"))
+        SpO2_data_knap = tk.Button(menu_frame, text="SpO2 data", font=("Arial", 15), command=lambda: self.controller.show_frame("SpO2dataframe"))
         SpO2_data_knap.place(x=800, y=30, width=100, heigh=40)
 
         quit_button = tk.Button(menu_frame, text="Quit", font=("Arial", 15), command=self.quit)
@@ -531,8 +526,34 @@ class SpO2dataframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-        SpO2_data_frame = tk.Frame(self, bg="yellow", highlightbackground="black", highlightthickness=2)
-        SpO2_data_frame.place(x=0, y=0, width=1000, height=700)
+        try:
+            connection = sqlite3.connect('/Users/rebeccatimm/Desktop/Database.db')
+            c = connection.cursor()
+
+            c.execute("SELECT ID, Måling FROM Ilt ORDER BY ID DESC LIMIT 20")
+            records = c.fetchall()
+            connection.commit()
+
+            Label1 = Label(self, width=60, text='ID', borderwidth=5, relief='flat', anchor='w', bg='black')
+            Label1.grid(row=0, column=0)
+            Label2 = Label(self, width=60, text='SpO2 Måling', borderwidth=5, relief='flat', anchor='w', bg='black')
+            Label2.grid(row=0, column=1)
+
+            i = 1
+            for data in reversed(records):
+                for j in range(len(data)):
+                    x = Entry(self, width=60)
+                    x.grid(row=i, column=j)
+                    x.insert(END, data[j])
+                    x.configure(state='disabled')
+                i = i + 1
+
+        except sqlite3.Error as error:
+            print("Kommunikationsfejl med databasen:", error)
+
+        finally:
+            c.close()
+            connection.close()
 
 
 class Sensor:
@@ -551,7 +572,7 @@ class Sensor:
                 c.execute('INSERT INTO Ilt (Måling, Tid) VALUES (?,?)', (self.pullData[i], currentDateTime,))
                 connection.commit()
 
-                c.execute('SELECT ID, Måling FROM Ilt ORDER BY ID DESC LIMIT 100')
+                c.execute('SELECT ID, Måling FROM Ilt ORDER BY ID DESC LIMIT 20')
                 records = c.fetchall()
                 connection.commit()
 
@@ -579,7 +600,6 @@ class SpO2grafframe(tk.Frame):
         SpO2_graf_frame = FigureCanvasTkAgg(f, self)
         SpO2_graf_frame.get_tk_widget().place(x=0, y=0, width=1000, height=700)
 
-
 f = Figure(dpi=150)
 a = f.add_subplot(111)
 
@@ -587,7 +607,6 @@ sensor = Sensor()
 ilt_data = []
 x = []
 y = []
-
 
 def tegn_graf(i):
     ilt_data.append(sensor.getdata())
