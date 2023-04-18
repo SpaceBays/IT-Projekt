@@ -307,7 +307,6 @@ if __name__ == "__main__":
 
 ________________________________________________________________________________________
 
-
 import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
@@ -400,8 +399,7 @@ class Graensevaerdierframe(tk.Frame):
         overskrift.place(x=350, y=30)
 
         # Puls frame
-        frame1 = tk.Frame(graensevaerdier_frame, width=50, height=50, bg="white", highlightbackground="black",
-                          highlightthickness=1)
+        frame1 = tk.Frame(graensevaerdier_frame, width=50, height=50, bg="white", highlightbackground="black",highlightthickness=1)
         frame1.pack(expand=True, side=tk.LEFT)
 
         # minEw puls
@@ -436,8 +434,7 @@ class Graensevaerdierframe(tk.Frame):
         self.maxKri_entry.focus()
 
         # Ilt frame
-        frame2 = tk.Frame(graensevaerdier_frame, width=10, height=100, bg="red", highlightbackground="black",
-                          highlightthickness=1)
+        frame2 = tk.Frame(graensevaerdier_frame, width=10, height=100, bg="red", highlightbackground="black", highlightthickness=1)
         frame2.pack(expand=True, side=tk.RIGHT)
 
         # EW ilt
@@ -504,14 +501,6 @@ class Graensevaerdierframe(tk.Frame):
         message = tk.messagebox.askyesno("quenstion", "Ønsker du at fortsætte med default?")
         if message:
            self.controller.show_frame("forsideframe")
-
-
-class pulsgrafframe(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-
-        puls_graf_frame = tk.Frame(self, bg="pink", highlightbackground="black", highlightthickness=2)
-        puls_graf_frame.place(x=0, y=0, width=1000, height=700)
 
 
 class pulsdataframe(tk.Frame):
@@ -619,7 +608,33 @@ def tegn_graf(i):
     a.set_ylabel('SpO2-værdi', fontsize=15)
 
 
+class pulsgrafframe(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        puls_graf_frame = FigureCanvasTkAgg(h, self)
+        puls_graf_frame.get_tk_widget().place(x=0, y=0, width=1000, height=700)
+
+h = Figure(dpi=150)
+a1 = h.add_subplot(111)
+
+sensor = Sensor()
+ilt_data1 = []
+x1 = []
+y1 = []
+
+def tegn_graf1(i):
+    ilt_data1.append(sensor.getdata())
+    x1.append(len(ilt_data1))
+    y1 = ilt_data1
+    a1.grid(True)
+    a1.plot(x1, y1, color="black")
+    a1.set_title('Graf for Puls-værdi', fontsize=20)
+    a1.set_xlabel('Tid i sekunder (s)', fontsize=15)
+    a1.set_ylabel('SpO2-værdi', fontsize=15)
+
 if __name__ == "__main__":
     Programmet = program()
     graf = animation.FuncAnimation(f, tegn_graf, interval=1500)
+    graf1 = animation.FuncAnimation(h, tegn_graf1, interval=1500)
     Programmet.mainloop()
