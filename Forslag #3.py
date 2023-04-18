@@ -309,7 +309,6 @@ ________________________________________________________________________________
 
 import tkinter as tk
 from tkinter import *
-from tkinter import messagebox
 from matplotlib import animation
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -503,13 +502,6 @@ class Graensevaerdierframe(tk.Frame):
            self.controller.show_frame("forsideframe")
 
 
-class pulsdataframe(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-
-        puls_data_frame = tk.Frame(self, bg="blue", highlightbackground="black", highlightthickness=2)
-        puls_data_frame.place(x=0, y=0, width=1000, height=700)
-
 
 class SpO2dataframe(tk.Frame):
     def __init__(self, parent, controller):
@@ -632,6 +624,40 @@ def tegn_graf1(i):
     a1.set_title('Graf for Puls-værdi', fontsize=20)
     a1.set_xlabel('Tid i sekunder (s)', fontsize=15)
     a1.set_ylabel('SpO2-værdi', fontsize=15)
+
+
+class pulsdataframe(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        try:
+            connection = sqlite3.connect('/Users/rebeccatimm/Desktop/Database.db')
+            c = connection.cursor()
+
+            c.execute("SELECT ID, Måling FROM Puls ORDER BY ID DESC LIMIT 20")
+            records = c.fetchall()
+            connection.commit()
+
+            Label1 = Label(self, width=60, text='ID', borderwidth=5, relief='flat', anchor='w', bg='black')
+            Label1.grid(row=0, column=0)
+            Label2 = Label(self, width=60, text='Puls Måling', borderwidth=5, relief='flat', anchor='w', bg='black')
+            Label2.grid(row=0, column=1)
+
+            i = 1
+            for data in reversed(records):
+                for j in range(len(data)):
+                    x = Entry(self, width=60)
+                    x.grid(row=i, column=j)
+                    x.insert(END, data[j])
+                    x.configure(state='disabled')
+                i = i + 1
+
+        except sqlite3.Error as error:
+            print("Kommunikationsfejl med databasen:", error)
+
+        finally:
+            c.close()
+            connection.close()
 
 if __name__ == "__main__":
     Programmet = program()
