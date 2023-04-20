@@ -671,6 +671,7 @@ if __name__ == "__main__":
     
  ___________________________________________________________________________________________________________________
 
+
 import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
@@ -851,7 +852,7 @@ class limitsframe(tk.Frame):
            self.controller.show_frame("frontpageframe")
 
 
-class Sensor:
+class SpO2Sensor:
     def __init__(self):
         self.index = 0
         self.pullData = open("SpO2.txt", "r").readlines()
@@ -897,13 +898,13 @@ class SpO2graphframe(tk.Frame):
 SpO2graph = Figure(dpi=150)
 a = SpO2graph.add_subplot(111)
 
-sensor = Sensor()
+SpO2Sensor = SpO2Sensor()
 SpO2_data = []
 x = []
 y = []
 
 def draw_SpO2_graph(i):
-    SpO2_data.append(sensor.getdata())
+    SpO2_data.append(SpO2Sensor.getdata())
     x.append(len(SpO2_data))
     y = SpO2_data
     a.grid(True)
@@ -921,14 +922,12 @@ class SpO2dataframe(tk.Frame):
             connection = sqlite3.connect('/Users/rebeccatimm/Desktop/Database.db')
             c = connection.cursor()
 
-            c.execute("SELECT ID, Data FROM SpO2 ORDER BY ID DESC LIMIT 20")
+            c.execute("SELECT Data FROM SpO2 ORDER BY ID DESC LIMIT 20")
             records = c.fetchall()
             connection.commit()
 
-            SpO2_ID_label = Label(self, width=60, text='SpO2 ID', borderwidth=5, relief='flat', anchor='w', bg='black')
-            SpO2_ID_label.grid(row=0, column=0)
             SpO2_Data_label = Label(self, width=60, text='SpO2 Data', borderwidth=5, relief='flat', anchor='w', bg='black')
-            SpO2_Data_label.grid(row=0, column=1)
+            SpO2_Data_label.grid(row=0, column=0)
 
             i = 1
             for data in reversed(records):
@@ -946,6 +945,44 @@ class SpO2dataframe(tk.Frame):
             c.close()
             connection.close()
 
+
+class PulseSensor:
+    def __init__(self):
+        self.index = 0
+        self.pullData = open("Puls.txt", "r").readlines()
+        for i in range(len(self.pullData)):
+            self.pullData[i] = self.pullData[i].rstrip()
+
+            try:
+                currentDateTime = datetime.datetime.now()
+
+                connection = sqlite3.connect('/Users/rebeccatimm/Desktop/Database.db')
+                c = connection.cursor()
+
+                c.execute('INSERT INTO Pulse (Data, Time) VALUES (?,?)', (self.pullData[i], currentDateTime,))
+                connection.commit()
+
+                c.execute('SELECT ID, Data FROM Pulse ORDER BY ID DESC LIMIT 20')
+                records = c.fetchall()
+                connection.commit()
+
+                self.pullData1 = []
+                for row in reversed(records):
+                    self.pullData1.append(row[1])
+
+            except sqlite3.Error as error:
+                print("Communicationerror with Database:", error)
+
+            finally:
+                c.close()
+                connection.close()
+
+    def getdata(self):
+        q = self.pullData1[self.index]
+        self.index = self.index + 1
+        return int(q)
+
+
 class pulsegraphframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -956,13 +993,13 @@ class pulsegraphframe(tk.Frame):
 Pulsegraph = Figure(dpi=150)
 b = Pulsegraph.add_subplot(111)
 
-sensor = Sensor()
+PulseSensor = PulseSensor()
 Pulse_data = []
 x1 = []
 y1 = []
 
 def draw_pulse_graph(i):
-    Pulse_data.append(sensor.getdata())
+    Pulse_data.append(PulseSensor.getdata())
     x1.append(len(Pulse_data))
     y1 = Pulse_data
     b.grid(True)
@@ -979,14 +1016,12 @@ class pulsedataframe(tk.Frame):
             connection = sqlite3.connect('/Users/rebeccatimm/Desktop/Database.db')
             c = connection.cursor()
 
-            c.execute("SELECT ID, Data FROM Pulse ORDER BY ID DESC LIMIT 20")
+            c.execute("SELECT Data FROM Pulse ORDER BY ID DESC LIMIT 20")
             records = c.fetchall()
             connection.commit()
 
-            Pulse_ID_label = Label(self, width=60, text='ID', borderwidth=5, relief='flat', anchor='w', bg='black')
-            Pulse_ID_label.grid(row=0, column=0)
             Pulse_Data_label = Label(self, width=60, text='Puls Data', borderwidth=5, relief='flat', anchor='w', bg='black')
-            Pulse_Data_label.grid(row=0, column=1)
+            Pulse_Data_label.grid(row=0, column=0)
 
             i = 1
             for data in reversed(records):
@@ -1010,3 +1045,5 @@ if __name__ == "__main__":
     SpO2graph = animation.FuncAnimation(SpO2graph, draw_SpO2_graph, interval=1500)
     Pulsegraph = animation.FuncAnimation(Pulsegraph, draw_pulse_graph, interval=1500)
     TheProgram.mainloop()
+
+
