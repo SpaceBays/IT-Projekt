@@ -387,3 +387,25 @@ if __name__ == "__main__":
     SpO2graph = animation.FuncAnimation(SpO2graph, draw_SpO2_graph, interval=1500)
     Pulsegraph = animation.FuncAnimation(Pulsegraph, draw_pulse_graph, interval=1500)
     TheProgram.mainloop()
+    
+    ___________________________________________________________________________________________________________________________________________________________
+    
+    def get_pulse_mincrit(self):
+        self.pulse_mincritical = self.pulse_mincritical_entry.get()
+        return self.pulse_mincritical
+    
+    def get_pulse_minearlywarning(self):
+        self.pulse_minearlywarning = self.pulse_minearlywarning_entry.get()
+        return self.pulse_minearlywarning
+
+    def get_pulse_maxcritical(self):
+        self.pulse_maxcritical = self.pulse_maxcritical_entry.get()
+        return self.pulse_maxcritical
+
+    def get_SpO2_earlywarning(self):
+        self.SpO2_earlywarning = self.SpO2_earlywarning_entry.get()
+        return self.SpO2_earlywarning
+    
+    def get_SpO2_critical(self):
+        self.SpO2_critical = self.SpO2_critical_entry.get()
+        return self.SpO2_critical
