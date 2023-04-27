@@ -9,6 +9,7 @@ import datetime
 import sys
 
 
+# Klasse, der danner grundlag for systemet. Den samler, styrer og skaber forbindelse mellem de tilstedeværende klasser. 
 class Program(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
@@ -38,6 +39,7 @@ class Program(tk.Tk):
         frame.tkraise()
 
 
+# Klasse, der indeholder hele menulinjen i toppen af brugergrænsefladen, herunder knapper og deres funktioner.
 class menuframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -70,7 +72,8 @@ class menuframe(tk.Frame):
         if message:
             sys.exit()
 
-
+            
+# Klasse, der indeholder forsiden - den frame man først møder, når brugergrænsefladen åbnes.
 class frontpageframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -78,7 +81,8 @@ class frontpageframe(tk.Frame):
         frontpage_frame = tk.Frame(self, bg="grey", highlightbackground="black", highlightthickness=2)
         frontpage_frame.place(x=0, y=0, width=1000, height=700)
 
-
+        
+# Klasse, der indeholder den frame, hvori brugeren har mulighed for at indtaste grænseværdier.
 class limitsframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -89,7 +93,7 @@ class limitsframe(tk.Frame):
         heading_label = tk.Label(limits_frame, bg="grey", text="Limits", font=("Arial#", 50))
         heading_label.place(x=430, y=30)
 
-        # Pulse frame
+        # Frame til indtastning af Puls grænseværdier.
         pulse_limits_frame = tk.Frame(limits_frame, width=50, height=50, highlightbackground="black",highlightthickness=1)
         pulse_limits_frame .pack(expand=True, side=tk.LEFT)
 
@@ -117,7 +121,7 @@ class limitsframe(tk.Frame):
         self.pulse_maxcritical_entry.pack(fill='x', expand=True)
         self.pulse_maxcritical_entry.focus()
 
-        # SpO2 frame
+        # Frame til indtastning af SpO2 grænseværdier.
         SpO2_limits_frame = tk.Frame(limits_frame, width=10, height=100, highlightbackground="black", highlightthickness=1)
         SpO2_limits_frame.pack(expand=True, side=tk.RIGHT)
 
@@ -133,7 +137,7 @@ class limitsframe(tk.Frame):
         self.SpO2_critical_entry.pack(fill='x', expand=True)
         self.SpO2_critical_entry.focus()
 
-        # Middle frame
+        # Frame der indeholder "Enter"-knappen, som skal benyttes efter indtastning af alle grænseværdier.
         middle_frame = tk.Frame(limits_frame, width=10, height=10, bg="blue")
         middle_frame.pack(expand=True, side=tk.LEFT)
         enter_button = tk.Button(middle_frame, text="Enter")
@@ -163,7 +167,8 @@ class limitsframe(tk.Frame):
         self.SpO2_critical = self.SpO2_critical_entry.get()
         return self.SpO2_critical
 
-
+    
+# Klasse, for den SpO2-sensor, der indhenter tilfældigt generet målinger fra en text-fil.
 class SpO2Sensor:
     def __init__(self):
         self.index = 0
@@ -200,7 +205,8 @@ class SpO2Sensor:
         self.index = self.index + 1
         return int(q)
 
-
+    
+# Klasse, der indeholder den frame, hvori SpO2-grafen er placeret i.
 class SpO2graphframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -232,7 +238,8 @@ def draw_SpO2_graph(i):
     a.set_xlabel('Time in seconds (s)', fontsize=15)
     a.set_ylabel('SpO2-Data', fontsize=15)
 
-
+    
+# Klasse, der indeholder den frame, hvori SpO2-data er placeret i og løbende kan følges.
 class SpO2dataframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -264,7 +271,8 @@ class SpO2dataframe(tk.Frame):
             c.close()
             connection.close()
 
-
+            
+# Klasse, for den Puls-sensor, der indhenter pulsmålinger fra en text-fil. Pulsmålingerne er foretaget med en fysisk sensor via en Arduino.
 class PulseSensor:
     def __init__(self):
         self.index = 0
@@ -301,7 +309,8 @@ class PulseSensor:
         self.index = self.index + 1
         return int(q)
 
-
+    
+# Klasse, der indeholder den frame, hvori Puls-grafen er placeret i.
 class pulsegraphframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -333,7 +342,8 @@ def draw_pulse_graph(i):
     b.set_xlabel('Time in seconds (s)', fontsize=15)
     b.set_ylabel('Pulse-Data', fontsize=15)
 
-
+    
+# Klasse, der indeholder den frame, hvori Puls-data er placeret i og løbende kan følges.
 class pulsedataframe(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
